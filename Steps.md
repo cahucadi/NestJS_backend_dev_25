@@ -22,6 +22,7 @@ npm run start:dev
 ```
 
 4. Instalar las librerías de la Base de datos (en este caso MongoDB)
+**Dado que se está ejecutando el proyecto, todos los comandos de consola deben realizarse en una nueva ventana de consola**
 
 ```bash
 npm install --save @nestjs/mongoose mongoose
@@ -64,10 +65,12 @@ nest g s product
 
 
 ## Configurar la conexión a la BD
+**(Esta sección se realiza UNA SOLA VEZ para el proyecto)**
+
 
 10. Crear la BD y la colección en MongoAtlas
 
-- Selecciono la BD (de forma predeterminada es Cluster0)
+- Selecciono el Cluster (de forma predeterminada es Cluster0)
 - Selecciono la pestaña "Colections"
 - Creo una base de datos con nombre ZZZZZZ (+ Create Database)
 - Seleciono la base de datos creada y creo una colección 
@@ -96,20 +99,34 @@ Donde:
 Nota: la URL de conexión 'mongodb+srv://....' se obtiene en el Botón 
 "Connect", seleccionando "Connect your application"
 
-
 ## Implementar las funcionalidades de product
 
 12. Actualizar el Schema de product product.schema.ts
  - Agregar los atributos que tendrá la colección
 
-13. Actualizar el DTO y la interfaz con los campos a utilizar
+  ```bash
+    import { Schema } from "mongoose";
+
+    export const ProductSchema = new Schema({
+
+        name: {type: String, required: true},
+        description:  {type: String, required: true},
+        price: Number,
+        createdAt: {
+            type: Date,
+            default: Date.now
+        }
+
+    });
+  ```
+
+13. Actualizar el DTO y la interface con los campos a utilizar
  - Actualizar el DTO con los mismos atributos del Schema
  - Actualizar la interface con los mismos atribitos del Schema
 
-Nota: el DTO y la interface tienen los mismos atributos del Schema 
-en estos ejemplos
+Nota: el DTO y la interface tienen los mismos atributos del Schema para este escenario
 
-14. Agregar a la interfaz el extends Document de mongoose
+14. Agregar a la interface el extends Document de mongoose
 - Importar el Document de mongoose
 
 ```bash
@@ -127,8 +144,11 @@ export interface IProduct extends Document{
 
   - Importar el MongooseModule y el Schema de product
     ```bash
-    import { MongooseModule } from '@nestjs/mongoose';
-    import { ProductSchema } from './schemas/product.schema';
+        import { Module } from '@nestjs/common';
+        import { MongooseModule } from '@nestjs/mongoose';
+        import { ProductController } from './product.controller';
+        import { ProductService } from './product.service';
+        import { ProductSchema } from './schemas/product.schema';
     ```
   - Agregar en imports la configuración de la colección mediante Mongoose.forFeature quedan así:
 
@@ -147,7 +167,7 @@ export interface IProduct extends Document{
 
   16. Creamos las consultas (queries) en el servicio
 
-  - Importar las librerías necesarias: El DTO, la interfaz, el Model y el InjectModel, entre otras
+  - Importar las librerías necesarias: El DTO, la interface, el Model y el InjectModel, entre otras
 
     ```bash
       import { Injectable } from '@nestjs/common';
