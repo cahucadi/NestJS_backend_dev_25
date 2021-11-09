@@ -7,18 +7,16 @@ import { IProduct } from './interfaces/product.interface';
 @Injectable()
 export class ProductService {
 
-    constructor(@InjectModel('Product') private readonly productModel : Model<IProduct> ){
+    constructor( ){
     }
 
     async getProducts():Promise<IProduct[]>{
-        const products = await this.productModel.find();
-        return products;
+
+        return null;
     }
 
     async createProduct(createProductDTO: CreateProductDTO): Promise<IProduct>{
-        const product = new this.productModel(createProductDTO);
-        await product.save();
-        return product;
+        return null;
     }
     
 

@@ -8,32 +8,26 @@ import { CreateStudentDTO } from './dto/create_student.dto';
 @Injectable()
 export class StudentService {
 
-    constructor( @InjectModel('Student') private readonly studentModel: Model<IStudent> ){}
+    constructor(){}
 
     async getStudents(): Promise<IStudent[]>{
-        const students = await this.studentModel.find().sort({name: -1});
-        return students; 
+        return null;
     }
 
     async getStudentById(studentId: string): Promise<IStudent> {
-        const student = await this.studentModel.findById(studentId);
-        return student;
+        return null;
     }
 
     async createStudent(createStudentDTO: CreateStudentDTO): Promise<IStudent> {
-        const student = new this.studentModel(createStudentDTO);
-        await student.save();
-        return student;
+        return null;
     }
 
     async updateStudent(studentId: string, createStudentDTO: CreateStudentDTO): Promise<IStudent> {
-        const updatedStudent = await this.studentModel.findByIdAndUpdate(studentId, createStudentDTO, { new: true } );
-        return updatedStudent;
+        return null;
     }
 
     async deleteStudent(studentId: string): Promise<IStudent> {
-        const deletedStudent = this.studentModel.findByIdAndDelete(studentId);
-        return deletedStudent;
+        return null;
     }
 
 
