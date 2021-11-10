@@ -1,7 +1,8 @@
+import { IStudent } from "../interfaces/student.interface";
 
-export class CreateStudentDTO{
+export class CreateStudentDTO implements IStudent{
     
-    readonly code : string;
+    readonly code : number;
     readonly name : string;
     readonly photoURL : string;
     readonly createdAt : Date;

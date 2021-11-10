@@ -1,7 +1,7 @@
-import { Document } from "mongoose";
-export interface IStudent extends Document{
+export interface IStudent{
     
-    readonly code : string;
+    readonly id? : number;
+    readonly code : number;
     readonly name : string;
     readonly photoURL : string;
     readonly createdAt : Date;

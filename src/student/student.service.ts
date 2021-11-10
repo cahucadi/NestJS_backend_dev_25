@@ -1,33 +1,39 @@
 import { Injectable } from '@nestjs/common';
-
-import { Model } from 'mongoose';
-import { InjectModel } from '@nestjs/mongoose';
-
 import { IStudent } from './interfaces/student.interface';
 import { CreateStudentDTO } from './dto/create_student.dto';
+import { from, Observable } from 'rxjs';
+import { InjectRepository } from '@nestjs/typeorm';
+import { StudentEntity } from './models/student.entity';
+import { Repository } from 'typeorm';
+
 @Injectable()
 export class StudentService {
 
-    constructor(){}
+    constructor(@InjectRepository(StudentEntity) private readonly studentRepository: Repository<StudentEntity>){}
 
-    async getStudents(): Promise<IStudent[]>{
-        return null;
+    getStudents(): Observable<IStudent[]>{
+        const students = from(this.studentRepository.find());
+        return students;
     }
 
-    async getStudentById(studentId: string): Promise<IStudent> {
-        return null;
+    getStudentById(studentId: string): Observable<IStudent> {
+        const student = from(this.studentRepository.findOne(studentId));
+        return student;
     }
 
-    async createStudent(createStudentDTO: CreateStudentDTO): Promise<IStudent> {
-        return null;
+    createStudent(createStudentDTO: CreateStudentDTO): Observable<IStudent> {
+        const student = from(this.studentRepository.save(createStudentDTO));
+        return student;
     }
 
-    async updateStudent(studentId: string, createStudentDTO: CreateStudentDTO): Promise<IStudent> {
-        return null;
+    updateStudent(studentId: string, createStudentDTO: CreateStudentDTO): Observable<any> {
+        const updatedStudent = from(this.studentRepository.update(studentId, createStudentDTO));
+        return updatedStudent;
     }
 
-    async deleteStudent(studentId: string): Promise<IStudent> {
-        return null;
+    deleteStudent(studentId: string): Observable<any> {
+        const deletedStudent = from(this.studentRepository.delete(studentId));
+        return deletedStudent;
     }
 
 
