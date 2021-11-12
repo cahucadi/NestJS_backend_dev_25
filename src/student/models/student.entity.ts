@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 
-@Entity()
+@Entity("students")
 export class StudentEntity{
 
     @PrimaryGeneratedColumn()
@@ -13,10 +13,10 @@ export class StudentEntity{
     @Column()
     name: string;
     
-    @Column()
+    @Column({default: 'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png' })
     photoURL: string;
     
-    @Column()
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date;
 
 

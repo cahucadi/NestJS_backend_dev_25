@@ -11,28 +11,30 @@ export class StudentService {
 
     constructor(@InjectRepository(StudentEntity) private readonly studentRepository: Repository<StudentEntity>){}
 
-    getStudents(): Observable<IStudent[]>{
-        const students = from(this.studentRepository.find());
+    async getStudents(): Promise<IStudent[]>{
+        const students = await this.studentRepository.find();
         return students;
     }
 
-    getStudentById(studentId: string): Observable<IStudent> {
-        const student = from(this.studentRepository.findOne(studentId));
+    async getStudentById(studentId: string): Promise<IStudent> {
+        const student = await this.studentRepository.findOne(studentId);
         return student;
     }
 
-    createStudent(createStudentDTO: CreateStudentDTO): Observable<IStudent> {
-        const student = from(this.studentRepository.save(createStudentDTO));
+    async createStudent(createStudentDTO: CreateStudentDTO): Promise<IStudent> {
+        const student = await this.studentRepository.save(createStudentDTO);
         return student;
     }
 
-    updateStudent(studentId: string, createStudentDTO: CreateStudentDTO): Observable<any> {
-        const updatedStudent = from(this.studentRepository.update(studentId, createStudentDTO));
+    async updateStudent(studentId: string, createStudentDTO: CreateStudentDTO): Promise<any> {
+        await this.studentRepository.update(studentId, createStudentDTO);
+        const updatedStudent = await this.studentRepository.findOne(studentId);
         return updatedStudent;
     }
 
-    deleteStudent(studentId: string): Observable<any> {
-        const deletedStudent = from(this.studentRepository.delete(studentId));
+    async deleteStudent(studentId: string): Promise<any> {
+        const deletedStudent =  await this.studentRepository.findOne(studentId);
+        await this.studentRepository.delete(studentId);
         return deletedStudent;
     }
 
