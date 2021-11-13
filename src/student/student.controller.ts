@@ -1,8 +1,10 @@
-import { Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, Post, Put, Query, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, Post, Put, Query, Res, UseGuards } from '@nestjs/common';
 import { StudentService } from './student.service';
 import {CreateStudentDTO} from './dto/create_student.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('student')
+@UseGuards(AuthGuard())
 export class StudentController {
 
     constructor(private readonly studentService: StudentService){}

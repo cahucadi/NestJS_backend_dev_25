@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Post, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateUserDTO } from 'src/user/dto/create_user.dto';
 import { LoginUserDTO } from 'src/user/dto/login_user.dto';
@@ -13,6 +13,7 @@ export class AuthController {
     constructor(private readonly authService: AuthService){}
 
     @Post('register')
+    @UsePipes(new ValidationPipe())
     public async register(@Body() createUserDTO: CreateUserDTO ): Promise<IRegistrationStatus>{
         
         const result:IRegistrationStatus = await this.authService.register(createUserDTO);
@@ -25,6 +26,7 @@ export class AuthController {
     }
 
     @Post('login')
+    @UsePipes(new ValidationPipe())
     public async login(@Body() loginUserDTO: LoginUserDTO ): Promise<ILoginStatus>{
         const result:ILoginStatus = await this.authService.login(loginUserDTO);
         return result;
