@@ -6,6 +6,7 @@ import { UserDTO } from './dto/user.dto';
 import { UserEntity } from './models/user.entity';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDTO } from './dto/create_user.dto';
+import { use } from 'passport';
 
 
 @Injectable()
@@ -13,6 +14,11 @@ export class UserService {
 
     constructor(@InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>  ){}
 
+
+    async findById(id:string):Promise<UserEntity>{
+        const userEntity = await this.userRepository.findOne(id);
+        return userEntity;
+    }
 
     async getUser(options?: object):Promise<UserDTO>{
         const userEntity = await this.userRepository.findOne(options);
@@ -59,8 +65,8 @@ export class UserService {
     }
 
     userEntityToUserDTO(userEntity: UserEntity ):UserDTO{
-        const { id, username, email, updatedAt, active } = userEntity;
-        let user:UserDTO = { id, username, email, updatedAt, active };
+        const { id, username, email, updatedAt, active, role } = userEntity;
+        let user:UserDTO = { id, username, email, updatedAt, active, role };
         return user;
     }
 
