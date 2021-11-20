@@ -4,7 +4,6 @@ import {CreateStudentDTO} from './dto/create_student.dto';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('student')
-@UseGuards(AuthGuard())
 export class StudentController {
 
     constructor(private readonly studentService: StudentService){}
@@ -12,9 +11,7 @@ export class StudentController {
     @Get()
     async getStudents(@Res() res){
         const students = await this.studentService.getStudents();
-        return res.status(HttpStatus.OK).json({
-            data : students
-        });
+        return res.status(HttpStatus.OK).send(students);
     }
 
     @Get('/:studentId')
@@ -25,21 +22,15 @@ export class StudentController {
             throw new NotFoundException('Student does not exists');
         }
 
-        return res.status(HttpStatus.OK).json({
-            message:'found',
-            data: student
-        });
+        return res.status(HttpStatus.OK).send(student);
     }
 
     @Post('/create')
     async createStudent(@Res() res, @Body() createStudentDTO: CreateStudentDTO ){
 
         const student = await this.studentService.createStudent(createStudentDTO);
+        return res.status(HttpStatus.CREATED).send(student);
 
-        return res.status(HttpStatus.CREATED).json({ 
-            message: 'recieved',
-            data: student 
-        });
     }
 
 
@@ -52,10 +43,7 @@ export class StudentController {
             throw new NotFoundException('Student does not exists');
         }
 
-        return res.status(HttpStatus.OK).json({
-            message:'Student updated successfully',
-            data: student
-        });
+        return res.status(HttpStatus.OK).send(student);
 
     }
 
@@ -68,10 +56,7 @@ export class StudentController {
             throw new NotFoundException('Student does not exists');
         }
 
-        return res.status(HttpStatus.OK).json({
-            message:'deleted',
-            data: student
-        });
+        return res.status(HttpStatus.OK).send(student);
 
     }
 
