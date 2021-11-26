@@ -15,13 +15,12 @@ import { ProductModule } from './product/product.module';
     StudentModule, 
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.DATABASE_HOST,
+      host: 'bssxtjgyzc1ispjs41gs-mysql.services.clever-cloud.com',
       port: 3306,
-      username: process.env.DATABASE_USER,
-      password: process.env.DATABASE_PASS,
-      database: process.env.DATABASE_NAME,
-      autoLoadEntities: true,
-      synchronize: true,
+      username: 'ukhf2ngbvmifshyf',
+      password: '785covRvsBbjrNnvUegr',
+      database: 'bssxtjgyzc1ispjs41gs',
+      autoLoadEntities: true
     }),
     UserModule,
     AuthModule,
